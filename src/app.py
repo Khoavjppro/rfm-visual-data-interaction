@@ -8,6 +8,13 @@ biểu đồ mẫu -- sau này mỗi thành viên mở rộng thêm trong file
 src/pages/<ten_trang>.py tương ứng, KHÔNG sửa trực tiếp app.py
 để tránh commit dẫm chân nhau.
 """
+from pathlib import Path
+import sys
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 
 import pandas as pd
 import streamlit as st
@@ -18,7 +25,7 @@ from src.pages import overview, rfm_segment, geo_analysis, forecast
 st.set_page_config(page_title="Retail RFM Dashboard", layout="wide")
 
 st.title("📊 Phân tích hiệu suất bán hàng & Phân khúc khách hàng (RFM)")
-st.caption("Dữ liệu hiện tại: MOCK DATA (giả lập) -- sẽ thay bằng dữ liệu thật ở Giai đoạn 2")
+st.caption("Dashboard đang dùng dữ liệu đã làm sạch từ data/cleaned_data.csv")
 
 orders = load_orders()
 rfm = load_rfm()

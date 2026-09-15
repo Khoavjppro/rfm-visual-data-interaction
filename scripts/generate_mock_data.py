@@ -14,7 +14,7 @@ from pathlib import Path
 
 np.random.seed(42)
 
-N_ORDERS = 3000
+N_ORDERS = 5000
 N_CUSTOMERS = 400
 
 COUNTRIES = {

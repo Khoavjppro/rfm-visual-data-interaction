@@ -1,10 +1,9 @@
 """
-Điểm nối DUY NHẤT giữa Dashboard và nguồn dữ liệu.
+Điểm nối DUY NHẤT giữa Dashboard và dữ liệu đã làm sạch.
 
-Hiện tại đang trỏ vào data/raw/mock_orders.csv (dữ liệu giả lập).
-Khi bạn làm xong bước làm sạch dữ liệu thật (Giai đoạn 1-2), chỉ cần
-đổi ORDERS_PATH bên dưới sang data/processed/orders_clean.csv
--> KHÔNG cần sửa bất kỳ file nào khác trong src/pages/.
+Dashboard luôn đọc data/cleaned_data.csv. Muốn cập nhật dữ liệu, hãy
+đưa CSV nguồn vào data/raw/ rồi chạy scripts/clean_data.py. Các trang
+trong src/pages/ không được đọc trực tiếp dữ liệu raw.
 """
 
 from pathlib import Path
@@ -15,13 +14,18 @@ from src.shared.rfm_utils import build_rfm_table
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 
-# <<< DÒNG DUY NHẤT CẦN SỬA KHI CÓ DATA THẬT >>>
-ORDERS_PATH = ROOT_DIR / "data" / "raw" / "mock_orders.csv"
+CLEAN_DATA_PATH = ROOT_DIR / "data" / "cleaned_data.csv"
 
 
 @st.cache_data
 def load_orders() -> pd.DataFrame:
-    df = pd.read_csv(ORDERS_PATH, parse_dates=["Order Date"])
+    if not CLEAN_DATA_PATH.exists() or CLEAN_DATA_PATH.stat().st_size == 0:
+        raise FileNotFoundError(
+            "Chưa có dữ liệu đã làm sạch. Hãy chạy: "
+            "python scripts/clean_data.py"
+        )
+
+    df = pd.read_csv(CLEAN_DATA_PATH, parse_dates=["Order Date"])
     return df
 
 
