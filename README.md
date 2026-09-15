@@ -49,7 +49,7 @@ Dashboard chỉ đọc `data/cleaned_data.csv`. Khi thay dữ liệu thật, kh�
 
 Thực hiện tại thư mục gốc của dự án.
 
-```cmd
+```cmd (chạy 1 lần)
 py -3.12 -m venv .venv
 .venv\Scripts\activate.bat
 python -m pip install -r requirements.txt
@@ -65,7 +65,7 @@ python -m streamlit run src\app.py
 
 Mở địa chỉ Local URL mà Streamlit hiển thị, thường là `http://localhost:8501`.
 
-## Sử dụng dữ liệu thật
+## Sử dụng dữ liệu
 
 1. Đặt file CSV nguồn vào thư mục `data/raw/`.
 2. Chạy lệnh, ví dụ:
@@ -97,7 +97,7 @@ Tất cả trang dùng chung bộ lọc khu vực, quốc gia, thời gian và p
 ## Thành viên
 
 - Phạm Đức Khoa
-- Duy
-- Anh
+- Phạm Quốc Duy
+- Nguyễn Văn Xuân An
 
 > Thông tin phân công chi tiết được cập nhật trong thư mục `docs/members/`.
