@@ -3,8 +3,16 @@ Trang Phân khúc khách hàng theo RFM.
 Loại biểu đồ minh hoạ ở đây: Pie chart, Scatter plot, Box plot.
 """
 
+from pathlib import Path
+import sys
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import plotly.express as px
 import streamlit as st
+from src.shared.dashboard_context import render_page
 
 
 def render(rfm_filtered):
@@ -38,3 +46,7 @@ def render(rfm_filtered):
             rfm_filtered[["Customer ID", "Country", "Recency", "Frequency", "Monetary", "RFM_Score", "Segment"]],
             use_container_width=True,
         )
+
+
+st.set_page_config(page_title="RFM | Retail RFM", layout="wide")
+render_page("👥 Phân khúc khách hàng RFM", render, use_rfm_data=True)

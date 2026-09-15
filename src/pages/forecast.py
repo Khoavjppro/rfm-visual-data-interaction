@@ -5,11 +5,19 @@ Thành viên phụ trách "Insight & Forecast" sẽ thay bằng mô hình thật
 (train kỹ hơn, có thể thêm Logistic Regression dự báo churn ở đây).
 """
 
+from pathlib import Path
+import sys
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from sklearn.linear_model import LinearRegression
+from src.shared.dashboard_context import render_page
 
 
 def render(orders_filtered):
@@ -50,3 +58,7 @@ def render(orders_filtered):
         f"Hệ số góc (xu hướng/tháng): {model.coef_[0]:,.1f} -- "
         "đây là mô hình DEMO trên dữ liệu giả lập, sẽ train lại trên dữ liệu thật ở Giai đoạn 4-5."
     )
+
+
+st.set_page_config(page_title="Dự báo | Retail RFM", layout="wide")
+render_page("📈 Dự báo doanh thu", render)

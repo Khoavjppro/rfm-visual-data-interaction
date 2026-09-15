@@ -4,8 +4,16 @@ Loại biểu đồ minh hoạ ở đây: Choropleth Map (bắt buộc theo bare
 Treemap, Heatmap.
 """
 
+from pathlib import Path
+import sys
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import plotly.express as px
 import streamlit as st
+from src.shared.dashboard_context import render_page
 
 
 def render(orders_filtered):
@@ -37,3 +45,7 @@ def render(orders_filtered):
         )
         fig = px.imshow(pivot, text_auto=".0f", color_continuous_scale="Oranges")
         st.plotly_chart(fig, use_container_width=True)
+
+
+st.set_page_config(page_title="Địa lý | Retail RFM", layout="wide")
+render_page("🌍 Phân tích địa lý", render)
