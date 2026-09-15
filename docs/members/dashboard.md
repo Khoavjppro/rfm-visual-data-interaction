@@ -50,6 +50,7 @@ Khi chạy `streamlit run src/app.py`, các file trong `src/pages/` tự xuất 
 - [ ] Kiểm thử với dữ liệu thật sau khi nhóm xử lý dữ liệu bàn giao.
 - [ ] Hoàn thiện mô hình dự báo và đánh giá chất lượng dự báo trên dữ liệu thật.
 - [ ] Cân nhắc drill-down/cross-filtering nếu phù hợp tiến độ.
+- [ ] Cần chỉnh sửa lại UI cho đẹp hơn, thêm logo trường, chỉnh themes, v.v.
 
 ## Quy tắc tích hợp
 
