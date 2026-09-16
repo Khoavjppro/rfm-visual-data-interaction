@@ -17,6 +17,15 @@
 - Plotly: biểu đồ và bản đồ tương tác
 - Scikit-learn: mô hình dự báo
 
+## Bảng phân công (cập nhật sau)
+
+| Thành viên | MSSV | Hướng dẫn | Phụ trách |
+| --- | --- | --- | --- |
+| Phạm Đức Khoa | 24149170 | [duc_khoa](docs/members/dashboard.md) | Giao diện, liên kết các phần |
+| Phạm Quốc Duy | 24133008 | [cập nhật sau](docs/members/) | cập nhật sau |
+| Nguyễn Văn Xuân An | 24133002 | [cập nhật sau](docs/members/) | cập nhật sau |
+
+
 ## Cấu trúc dự án
 
 ```text
@@ -97,11 +106,5 @@ Tất cả trang dùng chung bộ lọc khu vực, quốc gia, thời gian và p
 - Không tính lại RFM trong `src/pages/`; sử dụng hàm trong `src/shared/rfm_utils.py`.
 - Mỗi thay đổi chức năng nên được thực hiện có commit riêng, có mô tả rõ ràng.
 - Cập nhật tài liệu nhiệm vụ tương ứng trong `docs/members/` khi mở rộng dashboard.
-
-## Thành viên
-
-- Phạm Đức Khoa
-- Phạm Quốc Duy
-- Nguyễn Văn Xuân An
 
 > Thông tin phân công chi tiết được cập nhật trong thư mục `docs/members/`.
