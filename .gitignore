@@ -28,10 +28,13 @@ tempCodeRunnerFile.py
 
 # Local/raw datasets. Keep the reproducible mock dataset used by the demo.
 data/raw/*
+# Keep the reproducible mock dataset tracked in the repository.
 !data/raw/mock_orders.csv
 
 # Processed data is generated locally by the cleaning pipeline and read by the dashboard.
-data/processed/
+data/processed/*
+# Keep the generated demo dataset tracked in the repository.
+!data/processed/cleaned_data.csv
 
 # không ignore .gitkeep giữ khung thư mục
 !**/.gitkeep
