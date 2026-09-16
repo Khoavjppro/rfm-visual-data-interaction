@@ -50,14 +50,15 @@ Dashboard chỉ đọc `data/processed/cleaned_data.csv`, không đọc trực t
 
 ## Cài đặt và chạy dự án
 
-Thực hiện tại thư mục gốc của dự án.
+Cài đặt môi trường ảo của Pyhton cho dự án:
+Thực hiện tại thư mục gốc của dự án (chạy 1 lần).
 
-```cmd (chạy 1 lần)
+```cmd 
 py -3.12 -m venv .venv
 .venv\Scripts\activate.bat
 python -m pip install -r requirements.txt
 ```
-
+(khi có dataset thật sẽ update sau)
 Tạo dữ liệu giả lập gồm tối thiểu 5.000 đơn hàng, làm sạch dữ liệu và chạy dashboard:
 
 ```cmd
@@ -71,7 +72,7 @@ Mở địa chỉ Local URL mà Streamlit hiển thị, thường là `http://lo
 ## Sử dụng dữ liệu
 
 1. Đặt file CSV nguồn vào thư mục `data/raw/`.
-2. Chạy lệnh, ví dụ:
+2. Chạy lệnh để làm sạch dữ liệu, ví dụ:
 
 ```cmd
 python scripts\clean_data.py data/raw/superstore_real.csv
@@ -94,7 +95,7 @@ Tất cả trang dùng chung bộ lọc khu vực, quốc gia, thời gian và p
 
 - Không commit thư mục `.venv/`, cache Python hoặc file dữ liệu nhạy cảm/lớn.
 - Không tính lại RFM trong `src/pages/`; sử dụng hàm trong `src/shared/rfm_utils.py`.
-- Mỗi thay đổi chức năng nên được thực hiện trong branch/commit riêng, có mô tả rõ ràng.
+- Mỗi thay đổi chức năng nên được thực hiện có commit riêng, có mô tả rõ ràng.
 - Cập nhật tài liệu nhiệm vụ tương ứng trong `docs/members/` khi mở rộng dashboard.
 
 ## Thành viên
