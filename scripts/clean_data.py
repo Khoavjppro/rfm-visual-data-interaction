@@ -1,4 +1,4 @@
-"""Tạo data/cleaned_data.csv từ một file CSV trong data/raw/."""
+"""Tạo data/processed/cleaned_data.csv từ một file CSV trong data/raw/."""
 
 import argparse
 from pathlib import Path
@@ -11,7 +11,7 @@ if str(ROOT_DIR) not in sys.path:
 from src.shared.data_cleaning import clean_orders
 
 
-CLEAN_DATA_PATH = ROOT_DIR / "data" / "cleaned_data.csv"
+CLEAN_DATA_PATH = ROOT_DIR / "data" / "processed" / "cleaned_data.csv"
 
 
 if __name__ == "__main__":

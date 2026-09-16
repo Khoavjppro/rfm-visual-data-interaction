@@ -7,7 +7,8 @@
 
 ```text
 data/raw/                         Dữ liệu nguồn; không đưa dữ liệu thật nhạy cảm lên Git
-data/cleaned_data.csv             Dữ liệu sạch bàn giao cho nhóm
+data/processed/                   Nơi lưu dữ liệu do pipeline sinh ra; dashboard chỉ đọc từ đây
+data/processed/cleaned_data.csv   Dữ liệu sạch bàn giao cho Dashboard và Insight & Forecast
 scripts/generate_mock_data.py     Sinh dữ liệu giả phục vụ phát triển UI
 scripts/clean_data.py             Điểm chạy pipeline raw → clean
 src/shared/data_cleaning.py       Quy tắc làm sạch và chuẩn hoá schema
@@ -16,17 +17,31 @@ src/shared/data_loader.py         Hợp đồng đọc dữ liệu đã làm s�
 
 Không sửa trực tiếp các file trong `src/pages/`; phần đó do Dashboard phụ trách. Khi schema thay đổi, thông báo nhóm trước khi sửa `data_loader.py`.
 
+## Phạm vi làm việc và luồng bàn giao
+
+Data phụ trách từ file CSV nguồn trong `data/raw/` đến file chuẩn hoá trong `data/processed/`. Dashboard, RFM và Forecast chỉ nhận dữ liệu qua `src/shared/data_loader.py`; không đọc raw và không tự làm sạch lại dữ liệu.
+
+```text
+data/raw/*.csv
+	↓ scripts/clean_data.py
+data/processed/cleaned_data.csv
+	↓ src/shared/data_loader.py
+Dashboard / RFM / Forecast
+```
+
+`data/processed/cleaned_data.csv` là output có thể tái tạo, không chỉnh tay. Sau khi đổi dataset, phải chạy lại pipeline và kiểm tra các phần sử dụng schema trước khi bàn giao.
+
 ## Phần nền tảng đã có
 
-- [x] Mock data 5.000 đơn hàng, 400 khách hàng và nhiều quốc gia/khu vực.
+- [x] Mock data (mẫu để test) 5.000 đơn hàng, 400 khách hàng và nhiều quốc gia/khu vực.
 - [x] Script `generate_mock_data.py` tạo file `data/raw/mock_orders.csv`.
-- [x] Pipeline `clean_data.py` đọc file raw và tạo `data/cleaned_data.csv`.
+- [x] Pipeline `clean_data.py` đọc file raw và tạo `data/processed/cleaned_data.csv`.
 - [x] Làm sạch cơ bản: chuẩn hoá tên cột, ép kiểu ngày/số, loại missing value, duplicate và Quantity không hợp lệ.
 - [x] Hỗ trợ alias phổ biến, ví dụ `Market` → `Region`, `Revenue` → `Sales`.
 
 ## Việc cần hoàn thiện
 
-- [ ] Thu thập/chọn dataset thật đáp ứng tối thiểu 5.000 dòng và có nguồn trích dẫn rõ ràng.
+- [ ] Thu thập/chọn dataset (thật) đáp ứng tối thiểu 5.000 dòng và có nguồn trích dẫn rõ ràng.
 - [ ] Lập data dictionary: tên cột, ý nghĩa, kiểu dữ liệu, đơn vị và quy tắc tính.
 - [ ] Kiểm tra chất lượng dữ liệu: missing values, duplicate, ngày bất thường, Sales/Quantity/Profit bất thường.
 - [ ] Xác định và ghi lại quy tắc xử lý outlier; không tự ý xoá outlier nếu chưa có lý do nghiệp vụ.
@@ -36,7 +51,7 @@ Không sửa trực tiếp các file trong `src/pages/`; phần đó do Dashboar
 
 ## Hợp đồng bàn giao
 
-File `data/cleaned_data.csv` cần có các cột bắt buộc:
+File `data/processed/cleaned_data.csv` cần có các cột bắt buộc:
 
 ```text
 Order ID, Order Date, Customer ID, Country, Region,
@@ -49,6 +64,10 @@ Quy ước dữ liệu:
 - `Sales`, `Quantity`, `Profit` là số; Profit được phép âm.
 - `Sales >= 0`, `Quantity > 0`.
 - Một `Order ID` có thể có nhiều dòng sản phẩm, vì vậy không được xoá trùng chỉ dựa trên `Order ID`.
+
+Danh sách cột bắt buộc là hợp đồng tích hợp: `data_cleaning.py`, `data_loader.py`, RFM, filter chung và các biểu đồ hiện đang phụ thuộc vào schema này. Nếu dataset thật khác dữ liệu mẫu (thiếu/đổi tên cột, khác kiểu dữ liệu hoặc thay đổi ý nghĩa), người phụ trách Data phải cập nhật `COLUMN_ALIASES` hoặc pipeline, thông báo Dashboard/Insight & Forecast, và kiểm tra lại các hàm/biểu đồ liên quan trước khi bàn giao.
+
+Không nên bỏ qua kiểm tra cột bắt buộc để "cho chạy được": thiếu hoặc đổi nghĩa một cột có thể làm sai RFM, bộ lọc, KPI, bản đồ và dự báo. Nếu hợp đồng cần thay đổi, phải cập nhật đồng bộ `REQUIRED_COLUMNS`, logic làm sạch, loader và các hàm/page đang dùng cột đó, sau đó chạy lại kiểm thử với dataset mới.
 
 ## Lệnh sử dụng
 

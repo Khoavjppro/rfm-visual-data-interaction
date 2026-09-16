@@ -56,6 +56,9 @@ def get_filtered_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 def render_page(title: str, render_function, use_rfm_data: bool = False) -> None:
     """Dựng tiêu đề, filter chung và nội dung của một trang dashboard."""
     st.title(title)
-    st.caption("Dashboard đang dùng dữ liệu đã làm sạch từ data/cleaned_data.csv")
+    st.caption(
+        "Dashboard đang dùng dữ liệu đã làm sạch từ "
+        "data/processed/cleaned_data.csv"
+    )
     orders_filtered, rfm_filtered = get_filtered_data()
     render_function(rfm_filtered if use_rfm_data else orders_filtered)

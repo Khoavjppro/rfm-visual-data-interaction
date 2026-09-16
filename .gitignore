@@ -30,5 +30,8 @@ tempCodeRunnerFile.py
 data/raw/*
 !data/raw/mock_orders.csv
 
-# Intermediate data is generated locally and is not used by the dashboard.
+# Processed data is generated locally by the cleaning pipeline and read by the dashboard.
 data/processed/
+
+# không ignore .gitkeep giữ khung thư mục
+!**/.gitkeep

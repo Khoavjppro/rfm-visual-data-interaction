@@ -23,7 +23,8 @@
 rfm-visual-data-interaction/
 ├── data/
 │   ├── raw/                 # Dữ liệu đầu vào (mock data hoặc dữ liệu thật)
-│   └── cleaned_data.csv     # Dữ liệu chuẩn hoá duy nhất dashboard sử dụng
+│   └── processed/
+│       └── cleaned_data.csv # Dữ liệu chuẩn hoá duy nhất dashboard sử dụng
 ├── docs/
 │   └── members/             # Hướng dẫn/phân công theo thành viên
 ├── scripts/
@@ -40,10 +41,12 @@ rfm-visual-data-interaction/
 ## Luồng dữ liệu
 
 ```text
-data/raw/*.csv → scripts/clean_data.py → data/cleaned_data.csv → Streamlit dashboard
+data/raw/*.csv → scripts/clean_data.py → data/processed/cleaned_data.csv → Streamlit dashboard
 ```
 
-Dashboard chỉ đọc `data/cleaned_data.csv`. Khi thay dữ liệu thật, không cần sửa mã biểu đồ; chỉ cần làm sạch lại file nguồn theo quy trình bên dưới.
+Dashboard chỉ đọc `data/processed/cleaned_data.csv`, không đọc trực tiếp `data/raw/`. Khi thay dữ liệu thật và schema vẫn đúng hợp đồng dữ liệu, chỉ cần chạy lại pipeline. Nếu schema khác dữ liệu mẫu, cần cập nhật pipeline/các phần liên quan trước khi làm mới dashboard.
+
+`data/processed/` là thư mục output trung gian và là nguồn dữ liệu duy nhất được bàn giao cho Dashboard, RFM và Forecast. Không sửa trực tiếp `cleaned_data.csv`; mọi thay đổi phải bắt đầu từ file trong `data/raw/` và được tạo lại bằng pipeline.
 
 ## Cài đặt và chạy dự án
 
@@ -74,9 +77,9 @@ Mở địa chỉ Local URL mà Streamlit hiển thị, thường là `http://lo
 python scripts\clean_data.py data/raw/superstore_real.csv
 ```
 
-3. Làm mới dashboard. File `data/cleaned_data.csv` sẽ được cập nhật.
+3. Làm mới dashboard. File `data/processed/cleaned_data.csv` sẽ được cập nhật và là nguồn duy nhất dashboard sử dụng.
 
-Dữ liệu đầu vào cần có các trường: `Order ID`, `Order Date`, `Customer ID`, `Country`, `Region` (hoặc `Market`), `Category`, `Sub-Category`, `Sales`, `Quantity`, `Profit`.
+Dữ liệu đầu vào cần có các trường: `Order ID`, `Order Date`, `Customer ID`, `Country`, `Region` (hoặc `Market`), `Category`, `Sub-Category`, `Sales`, `Quantity`, `Profit`. Đây là hợp đồng dữ liệu cho các hàm làm sạch, RFM, bộ lọc và biểu đồ. Nếu dataset thật thay đổi tên cột, kiểu dữ liệu hoặc ý nghĩa, hãy cập nhật `COLUMN_ALIASES`/pipeline và kiểm tra các phần liên quan trước khi bàn giao cho dashboard.
 
 ## Các trang dashboard
 

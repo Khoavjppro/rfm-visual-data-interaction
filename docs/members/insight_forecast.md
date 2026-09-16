@@ -12,7 +12,7 @@ src/pages/4_forecast.py            Tích hợp đầu ra mô hình với ngườ
 docs/members/insight_forecast.md   Theo dõi giả định, metric và insight
 ```
 
-Không thay đổi cách làm sạch dữ liệu trong `data_cleaning.py`. Không chỉnh layout/filter chung trong `dashboard_context.py` nếu chưa trao đổi với người phụ trách Dashboard.
+Input đơn hàng luôn đi qua `data_loader.py`, đọc từ `data/processed/cleaned_data.csv`. Không thay đổi cách làm sạch dữ liệu trong `data_cleaning.py`. Không chỉnh layout/filter chung trong `dashboard_context.py` nếu chưa trao đổi với người phụ trách Dashboard. Nếu schema dataset thật thay đổi, phải phối hợp với Data và Dashboard để kiểm tra/cập nhật logic RFM, insight và forecast có liên quan.
 
 ## Phần nền tảng đã có
 
