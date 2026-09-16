@@ -79,7 +79,7 @@ python scripts\clean_data.py data/raw/superstore_real.csv
 
 3. Làm mới dashboard. File `data/processed/cleaned_data.csv` sẽ được cập nhật và là nguồn duy nhất dashboard sử dụng.
 
-Dữ liệu đầu vào cần có các trường: `Order ID`, `Order Date`, `Customer ID`, `Country`, `Region` (hoặc `Market`), `Category`, `Sub-Category`, `Sales`, `Quantity`, `Profit`. Đây là hợp đồng dữ liệu cho các hàm làm sạch, RFM, bộ lọc và biểu đồ. Nếu dataset thật thay đổi tên cột, kiểu dữ liệu hoặc ý nghĩa, hãy cập nhật `COLUMN_ALIASES`/pipeline và kiểm tra các phần liên quan trước khi bàn giao cho dashboard.
+Dataset nguồn không bắt buộc phải có đúng tên hoặc đúng thứ tự các cột của dữ liệu mẫu. Pipeline cần ánh xạ được các trường tương đương về schema đầu ra: `Order ID`, `Order Date`, `Customer ID`, `Country`, `Region`, `Category`, `Sub-Category`, `Sales`, `Quantity`, `Profit`. Đây là schema mà các hàm làm sạch, RFM, bộ lọc và biểu đồ hiện đang sử dụng sau khi chuẩn hoá. Nếu dataset thật thiếu trường, khác kiểu dữ liệu hoặc thay đổi ý nghĩa, hãy cập nhật `COLUMN_ALIASES`/pipeline và kiểm tra các phần liên quan; không tự tạo giá trị giả để giữ dashboard chạy.
 
 ## Các trang dashboard
 

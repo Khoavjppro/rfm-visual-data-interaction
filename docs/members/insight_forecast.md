@@ -12,7 +12,7 @@ src/pages/4_forecast.py            Tích hợp đầu ra mô hình với ngườ
 docs/members/insight_forecast.md   Theo dõi giả định, metric và insight
 ```
 
-Input đơn hàng luôn đi qua `data_loader.py`, đọc từ `data/processed/cleaned_data.csv`. Không thay đổi cách làm sạch dữ liệu trong `data_cleaning.py`. Không chỉnh layout/filter chung trong `dashboard_context.py` nếu chưa trao đổi với người phụ trách Dashboard. Nếu schema dataset thật thay đổi, phải phối hợp với Data và Dashboard để kiểm tra/cập nhật logic RFM, insight và forecast có liên quan.
+Input đơn hàng luôn đi qua `data_loader.py`, đọc từ `data/processed/cleaned_data.csv`. Dataset nguồn không cần có đúng tên cột hoặc đúng schema của mock data; Data có trách nhiệm ánh xạ và chuẩn hoá về schema đầu ra trước khi bàn giao. Không thay đổi cách làm sạch dữ liệu trong `data_cleaning.py` nếu chưa trao đổi với người phụ trách Data. Không chỉnh layout/filter chung trong `dashboard_context.py` nếu chưa trao đổi với người phụ trách Dashboard. Nếu dataset thật thiếu, đổi tên, đổi kiểu hoặc đổi ý nghĩa trường dữ liệu, phải phối hợp với Data và Dashboard để kiểm tra/cập nhật logic RFM, insight và forecast có liên quan.
 
 ## Phần nền tảng đã có
 
@@ -42,9 +42,13 @@ Input đơn hàng luôn đi qua `data_loader.py`, đọc từ `data/processed/cl
 
 ## Hợp đồng bàn giao cho Dashboard
 
+- Data bàn giao file `data/processed/cleaned_data.csv` theo schema đầu ra đã chuẩn hoá; không yêu cầu dataset nguồn phải giống hệt mock data.
+- Nếu một trường cần cho RFM/forecast không có trong dataset nguồn, không tự tạo giá trị giả. Phải thống nhất cách suy dẫn có căn cứ hoặc ghi rõ tính năng/phân tích nào không áp dụng được.
 - Hàm RFM trả về tối thiểu: `Customer ID`, `Recency`, `Frequency`, `Monetary`, `R_score`, `F_score`, `M_score`, `RFM_Score`, `Segment`.
 - Hàm forecast cần trả về dữ liệu theo tháng cho actual/test prediction/future prediction và dictionary metric.
 - Gửi nội dung insight ngắn, có thể hiển thị dưới biểu đồ: tiêu đề, phát hiện, khuyến nghị.
+
+Khi thay đổi schema đầu vào hoặc cách chuẩn hoá, phải kiểm tra lại `data_cleaning.py`, `data_loader.py`, `rfm_utils.py`, phần forecast và các biểu đồ/page phụ thuộc trước khi xác nhận bàn giao.
 
 ## Tiêu chí hoàn thành
 

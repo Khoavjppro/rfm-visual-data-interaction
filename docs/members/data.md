@@ -51,7 +51,11 @@ Dashboard / RFM / Forecast
 
 ## Hợp đồng bàn giao
 
-File `data/processed/cleaned_data.csv` cần có các cột bắt buộc:
+Hợp đồng cần phân biệt dữ liệu nguồn và dữ liệu sau làm sạch. Người tìm dữ liệu không bắt buộc phải tìm dataset có đúng tên cột, thứ tự cột hoặc đúng định dạng như dữ liệu mẫu. Dataset nguồn chỉ cần có thông tin tương đương và có thể ánh xạ được về schema chuẩn.
+
+### Schema đầu ra bắt buộc
+
+File `data/processed/cleaned_data.csv` hiện cần có các cột:
 
 ```text
 Order ID, Order Date, Customer ID, Country, Region,
@@ -65,9 +69,18 @@ Quy ước dữ liệu:
 - `Sales >= 0`, `Quantity > 0`.
 - Một `Order ID` có thể có nhiều dòng sản phẩm, vì vậy không được xoá trùng chỉ dựa trên `Order ID`.
 
-Danh sách cột bắt buộc là hợp đồng tích hợp: `data_cleaning.py`, `data_loader.py`, RFM, filter chung và các biểu đồ hiện đang phụ thuộc vào schema này. Nếu dataset thật khác dữ liệu mẫu (thiếu/đổi tên cột, khác kiểu dữ liệu hoặc thay đổi ý nghĩa), người phụ trách Data phải cập nhật `COLUMN_ALIASES` hoặc pipeline, thông báo Dashboard/Insight & Forecast, và kiểm tra lại các hàm/biểu đồ liên quan trước khi bàn giao.
+Đây là schema đầu ra, không phải yêu cầu dataset nguồn phải giống hệt dữ liệu mẫu. Schema này là hợp đồng tích hợp vì `data_cleaning.py`, `data_loader.py`, RFM, filter chung và các biểu đồ hiện đang phụ thuộc vào nó.
 
-Không nên bỏ qua kiểm tra cột bắt buộc để "cho chạy được": thiếu hoặc đổi nghĩa một cột có thể làm sai RFM, bộ lọc, KPI, bản đồ và dự báo. Nếu hợp đồng cần thay đổi, phải cập nhật đồng bộ `REQUIRED_COLUMNS`, logic làm sạch, loader và các hàm/page đang dùng cột đó, sau đó chạy lại kiểm thử với dataset mới.
+### Cách xử lý dataset khác mẫu
+
+- Khác tên cột nhưng cùng ý nghĩa: bổ sung ánh xạ trong `COLUMN_ALIASES` hoặc cấu hình tương đương.
+- Khác kiểu dữ liệu hoặc đơn vị: cập nhật bước chuẩn hoá, ghi rõ quy tắc chuyển đổi và kiểm tra lại chất lượng dữ liệu.
+- Thiếu trường có thể suy dẫn một cách đáng tin cậy: chỉ tạo trong pipeline khi có quy tắc nghiệp vụ rõ ràng; không tự điền giá trị giả.
+- Thiếu trường không thể suy dẫn: phải thống nhất giảm hoặc thay đổi tính năng phụ thuộc vào trường đó, rồi cập nhật `REQUIRED_COLUMNS`, pipeline, loader, RFM/forecast và các page liên quan.
+
+Sau mọi thay đổi schema, người phụ trách Data phải thông báo Dashboard và Insight & Forecast, chạy lại pipeline, kiểm tra các hàm/biểu đồ liên quan và cập nhật tài liệu trước khi bàn giao.
+
+Không nên bỏ qua kiểm tra schema để "cho chạy được": thiếu hoặc đổi nghĩa một cột có thể làm sai RFM, bộ lọc, KPI, bản đồ và dự báo.
 
 ## Lệnh sử dụng
 

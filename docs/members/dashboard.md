@@ -28,7 +28,7 @@ Khi chạy `streamlit run src/app.py`, các file trong `src/pages/` tự xuất 
 
 ### Input
 
-- Dữ liệu đơn hàng sạch từ `data/processed/cleaned_data.csv`, bảng RFM và kết quả dự báo theo đúng schema đã được các phần khác bàn giao.
+- Dữ liệu đơn hàng sạch từ `data/processed/cleaned_data.csv`, bảng RFM và kết quả dự báo theo schema đầu ra đã chuẩn hoá; dataset nguồn không nhất thiết phải giống tên cột của mock data.
 - `get_filtered_data()`: dữ liệu sau filter khu vực, quốc gia, thời gian và segment.
 
 ### Output hiện có
@@ -52,6 +52,6 @@ Khi chạy `streamlit run src/app.py`, các file trong `src/pages/` tự xuất 
 - Không đọc trực tiếp file trong `data/raw/` từ bất kỳ page nào.
 - Chỉ đọc dữ liệu đã làm sạch qua `data_loader.py` từ `data/processed/cleaned_data.csv`; không tự quy ước schema khác trong page.
 - Không viết lại công thức RFM hoặc thuật toán dự báo trong page.
-- Thống nhất schema với người phụ trách Data/Insight trước khi thay đổi cách hiển thị. Khi dataset thật khác dữ liệu mẫu, kiểm tra/cập nhật các filter, KPI và biểu đồ bị ảnh hưởng sau khi Data cập nhật pipeline.
+- Thống nhất schema với người phụ trách Data/Insight trước khi thay đổi cách hiển thị. Khi dataset thật khác dữ liệu mẫu hoặc thiếu trường, kiểm tra/cập nhật các filter, KPI và biểu đồ bị ảnh hưởng sau khi Data cập nhật pipeline; không giả định mọi tính năng vẫn áp dụng được.
 - Khi thêm biểu đồ, đảm bảo xử lý trường hợp DataFrame rỗng và dùng `use_container_width=True`.
 - Mỗi thay đổi nên có commit riêng, ví dụ: `feat: add top products chart`.
